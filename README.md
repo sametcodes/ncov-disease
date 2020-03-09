@@ -6,4 +6,4 @@
 
 Data from [CSSEGISandData/COVID-19](https://github.com/CSSEGISandData/COVID-19).
 
-Thanks [@pascalwhoop](http://github.com/@pascalwhoop) for converting the JSON file to a REST API ([#295](https://github.com/CSSEGISandData/COVID-19/issues/295))
+Thanks [pascalwhoop](http://github.com/@pascalwhoop) for converting the JSON file to a REST API ([#295](https://github.com/CSSEGISandData/COVID-19/issues/295))
