@@ -52,6 +52,9 @@ class App extends Component {
     if (prevState.day !== this.state.day) {
       let confs = this.state.confirmeds_data.map((confirmed, key) => {
         const state = confirmed["Province/State"];
+		if(!(this.state.day in confirmed)){
+			return null;
+		}
         const count = confirmed[this.state.day];
         const { Lat: lat, Long: long } = confirmed;
         return {
@@ -60,7 +63,7 @@ class App extends Component {
           count,
           coordinates: [long, lat]
         };
-      });
+      }).filter(Boolean);
       this.setState({ confirmeds: confs });
     }
   }
