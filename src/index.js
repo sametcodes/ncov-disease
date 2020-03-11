@@ -11,10 +11,6 @@ class App extends Component {
     day: "1/22/20",
     confirmeds_data: [],
     confirmeds: [],
-    today: new Date()
-      .toLocaleString()
-      .split(" ")[0]
-      .slice(0, -3),
     tooltipContent: ""
   };
   getTomorrow = strDate => {
@@ -29,22 +25,21 @@ class App extends Component {
       String(tomorrow.getFullYear()).slice(0, 2)
     );
   };
-  runDisease() {
+  runDisease = () => {
     this.disease = setInterval(() => {
       let tomorrow = this.getTomorrow(this.state.day);
-      console.log(tomorrow);
-      if (tomorrow === this.state.today) {
-        clearInterval(this.disease);
-        return;
-      }
-      this.setState({ day: tomorrow });
-    }, 100);
+	  this.setState({ day: tomorrow });
+	  if(tomorrow === this.state.last_date){
+		clearInterval(this.disease);
+		return;
+	  }
+    }, 150);
   }
   componentDidMount() {
     fetch("https://quixotic-elf-256313.appspot.com/api/confirmed")
       .then(res => res.json())
       .then(res => {
-        this.setState({ confirmeds_data: res, day: "1/22/20" });
+        this.setState({ confirmeds_data: res, day: "1/22/20", last_date: Object.keys(res[0]).slice(0, -4).slice(-1)[0] });
         this.runDisease();
       });
   }
@@ -52,9 +47,6 @@ class App extends Component {
     if (prevState.day !== this.state.day) {
       let confs = this.state.confirmeds_data.map((confirmed, key) => {
         const state = confirmed["Province/State"];
-		if(!(this.state.day in confirmed)){
-			return null;
-		}
         const count = confirmed[this.state.day];
         const { Lat: lat, Long: long } = confirmed;
         return {
