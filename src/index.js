@@ -36,19 +36,19 @@ class App extends Component {
     }, 150);
   }
   componentDidMount() {
-    fetch("https://quixotic-elf-256313.appspot.com/api/confirmed")
-      .then(res => res.json())
-      .then(res => {
-        this.setState({ confirmeds_data: res, day: "1/22/20", last_date: Object.keys(res[0]).slice(0, -4).slice(-1)[0] });
-        this.runDisease();
-      });
+    fetch("https://api.opencovid19.com/v1/confirmed")
+	  .then(res => res.json())
+	  .then(res => {
+		  this.setState({ confirmeds_data: res, day: "1/22/20", last_date: Object.keys(res[0]).slice(-1)[0] });
+		  this.runDisease();
+	  });
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevState.day !== this.state.day) {
       let confs = this.state.confirmeds_data.map((confirmed, key) => {
-        const state = confirmed["Province/State"];
+        const state = confirmed.province_State;
         const count = confirmed[this.state.day];
-        const { Lat: lat, Long: long } = confirmed;
+        const { lat, long } = confirmed;
         return {
           key,
           name: state,
